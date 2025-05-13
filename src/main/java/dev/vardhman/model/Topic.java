@@ -23,19 +23,24 @@ public class Topic {
 	public Topic() {
 	}
 
-	String getTopic() {
-		return topicName;
-	}
-
-	void setTopic(String topic) {
-		this.topicName = topic;
-	}
-
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return "Topic [id=" + id + ", topicName=" + topicName + "]";
+	}
+
+	public String getTopicName() {
+		return topicName;
+	}
+
+	public void setTopicName(String topicName) {
+		this.topicName = topicName;
 	}
 }

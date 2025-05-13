@@ -1,13 +1,9 @@
 package dev.vardhman.resource;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
+import dev.vardhman.auth.AuthenticationService;
 import dev.vardhman.dto.UserDTO;
 import dev.vardhman.model.User;
 import dev.vardhman.service.UserService;
-import io.smallrye.jwt.build.Jwt;
 import jakarta.annotation.security.PermitAll;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -23,33 +19,27 @@ import jakarta.ws.rs.core.Response;
 public class UserResource {
     @Inject
     UserService service;
+    @Inject
+    AuthenticationService authService;
 
     // Create
     @POST
     @PermitAll
-    public Response create(UserDTO user) {
+    public Response create(User user) {
         UserDTO createdUser = service.create(user);
-        System.out.println("User created");
         return Response.status(Response.Status.CREATED).entity(createdUser).build();
     }
 
     @POST
     @Path("/login")
-    public Response login(UserDTO user) {
-        UserDTO savedUser = service.get(user);
-        String jwt = generateJwt(savedUser);
-        return Response.ok().header("Authorization", "Bearer " + jwt)
-                .entity(savedUser).build();
-    }
+    @PermitAll
+    public Response login(User user) {
 
-    public String generateJwt(UserDTO user) {
-        Set<String> roles = new HashSet<>(
-                Arrays.asList("admin", "user"));
-        return Jwt.issuer("aspirant-hub")
-                .upn(String.valueOf(user.getId()))
-                .subject(String.valueOf(user.getEmail()))
-                .groups(roles)
-                .expiresAt(System.currentTimeMillis() + 2592000000l)
-                .sign();
+        UserDTO savedUser = service.get(user);
+        String jwt = authService.generateJwt(savedUser);
+
+        return Response.ok()
+                .header("Authorization", "Bearer " + jwt)
+                .entity(savedUser).build();
     }
 }

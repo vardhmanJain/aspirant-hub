@@ -1,26 +1,33 @@
 package dev.vardhman.dto;
 
 import dev.vardhman.enums.QuestionType;
+import dev.vardhman.model.Question;
+import dev.vardhman.model.Topic;
 
 public class QuestionDTO {
     public Long id;
     public String questionStatement;
     public String answer;
     public Long userId;
-    public Long topicId;
-    public QuestionType qType;
+    public Topic topic;
+    public QuestionType type;
 
-    public QuestionDTO(Long id, String questionStatement, String answer, Long userId, Long topicId, QuestionType type) {
-        this.id = id;
-        this.questionStatement = questionStatement;
-        this.answer = answer;
-        this.userId = userId;
-        this.topicId = topicId;
-        this.qType = type;
+    public QuestionDTO(Question question) {
+        this.id = question.getId();
+        this.questionStatement = question.getQuestionStatement();
+        this.answer = question.getAnswer().getAnswerStatement();
+        this.topic = question.getTopic();
+        this.type = question.getType();
     }
 
-    public QuestionType getqType() {
-        return qType;
+    public QuestionType getType() {
+        return type;
+    }
+
+    @Override
+    public String toString() {
+        return "QuestionDTO [id=" + id + ", questionStatement=" + questionStatement + ", answer=" + answer + ", userId="
+                + userId + ", topic=" + topic + ", type=" + type + "]";
     }
 
     QuestionDTO() {
@@ -59,16 +66,16 @@ public class QuestionDTO {
         this.userId = userId;
     }
 
-    public Long getTopicId() {
-        return topicId;
+    public Topic getTopic() {
+        return topic;
     }
 
-    public void setTopicId(Long topicId) {
-        this.topicId = topicId;
+    public void setTopic(Topic topic) {
+        this.topic = topic;
     }
 
-    public void setqType(QuestionType qType) {
-        this.qType = qType;
+    public void setType(QuestionType type) {
+        this.type = type;
     }
 
 }

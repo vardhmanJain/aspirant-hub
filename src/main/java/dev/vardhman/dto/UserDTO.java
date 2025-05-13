@@ -29,7 +29,6 @@ public class UserDTO {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.email = user.getEmail();
-        this.password = user.getPassword();
         this.dob = user.getDob();
         this.phone = user.getPhone();
         this.countryCode = user.getCountryCode();

@@ -19,10 +19,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO create(UserDTO dto) {
-        User user = new User();
-        user.setEmail(dto.getEmail());
-        user.setPassword(dto.getPassword());
+    public UserDTO create(User user) {
         em.persist(user);
         return new UserDTO(user);
     }
@@ -32,11 +29,13 @@ public class UserService {
         return new UserDTO(user);
     }
 
-    public UserDTO get(UserDTO user) {
+    public UserDTO get(User user) {
         Query query = em.createQuery("Select u from User u where u.email=:email and u.password=:password");
         query.setParameter("email", user.getEmail());
         query.setParameter("password", user.getPassword());
         List<User> savedUser = query.getResultList();
+        if (savedUser.size() < 1)
+            return null;
         return new UserDTO(savedUser.get(0));
     }
 
