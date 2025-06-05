@@ -1,0 +1,13 @@
+services:
+  backend:
+    image: docker.io/vardhman293/aspirant-hub:0.2
+    ports:
+    - 8080:8080
+  database:
+    image: postgres
+    ports:
+    - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=root
+      - POSTGRES_DB=aspirant
